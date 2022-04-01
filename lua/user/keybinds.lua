@@ -1,21 +1,44 @@
 local wk = require('which-key')
 
-vim.cmd([[let mapleader = "<Space>"]])
+local bind = vim.api.nvim_set_keymap
+local opts = {noremap = true, silent = true}
+
+-- Remap space as leader key
+bind("","<space>","<nop>",opts)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 vim.cmd([[command! Plugins edit $HOME/.config/nvim/lua/ext/plugins.lua]])
 
--- TODO Figure out why which-key binds are hanging and doing nothing
--- i think the getchar() function is looping/waiting for input indefinitely
+-- funcs
+function _G.EditConfigFile(file)
+  vim.cmd(string.format("edit $HOME/.config/nvim/lua/user/%s.lua", file))
+end
+
 wk.register({
+  b = {
+    name = "buffer",
+    d = {":bd<cr>", "Buffer Delete"},
+    n = {":bn<cr>", "Buffer Next"},
+    p = {":bp<cr>", "Buffer Previous"},
+    w = {":w<cr>",  "Buffer Write"},
+  },
   e = {
     name = "edit",
-    --n = {"<cmd>edit ", "Edit New"},
-    n = {"<Cmd>edit $HOME/.config/nvim/lua/ext/plugins.lua<CR>",  "Edit Plugins"},
-    o = {"<cmd>edit $HOME/.config/nvim/lua/user/options.lua<cr>", "Edit Options"},
-    p = {":Plugins<CR>",  "Edit Plugins"},
+    c = {
+      name = "config",
+      o = {"<cmd>lua EditConfigFile('options')<cr>",  "Edit Config Options"},
+      k = {"<cmd>lua EditConfigFile('keybinds')<cr>", "Edit Config Keybinds"},
+      p = {"<cmd>lua EditConfigFile('plugins')<cr>",  "Edit Config Plugins"},
+    },
+    n = {":edit ", "Edit New"},
+    --n = {"<cmd>edit $HOME/.config/nvim/lua/ext/plugins.lua<CR>",  "Edit Plugins"},
+    o = {"<cmd>lua EditConfigFile('options')<cr>", "Edit Options"},
+    p = {":Plugins<cr>",  "Edit Plugins"},
+  },
+  w = {
+    name = "write",
+    q = {":wq<cr>", "Write Quit"},
+    w = {":w<cr>",  "Write"},
   },
 }, {prefix = "<leader>"})
 
-local bind = vim.api.nvim_set_keymap
-local opts = {noremap = true, silent = true}
-bind("n", "<Space>vp", ":Plugins <CR>", opts)
-bind("n", "<Space>t", ":ToggleTerm <CR>", opts)
