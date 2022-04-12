@@ -38,6 +38,8 @@ return packer.startup(function(use)
   -- Colorschemes
   use "folke/tokyonight.nvim" 
   use "lunarvim/colorschemes"
+  use "rafamadriz/neon"
+
   use "folke/which-key.nvim" 
   use "akinsho/toggleterm.nvim"
 
