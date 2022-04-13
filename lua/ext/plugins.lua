@@ -42,7 +42,6 @@ return packer.startup(function(use)
 
   -- plenary is a dependency of which-key.reset(), 
   -- which we use to reload our config in user.utils.reload_config()
-  --  
   use "nvim-lua/plenary.nvim"
 
   use "folke/which-key.nvim" 

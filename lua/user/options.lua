@@ -1,4 +1,9 @@
 vim.cmd [[set iskeyword+=-]]
+
+-- User defined options
+_G.fontsize = 12
+
+-- nvim defined options
 local options = {
   allowrevins	= false,        --allow CTRL-_ in Insert and Command-line mode
   ambiwidth	= "single",       --what to do with Unicode chars of ambiguous width
@@ -74,7 +79,7 @@ local options = {
   --grepprg	= ,               --program to use for ":grep"
   gcr	= "n-v-c-sm:block,i-ci-ve:ver20,r-cr-o:hor20",             
                               --GUI: settings for cursor shape and blinking
-  --guifont	= ,               --GUI: Name(s) of font(s) to be used
+  guifont	= "CaskaydiaCove NF",  --GUI: Name(s) of font(s) to be used
   --guifontwide	= ,           --list of font names for double-wide characters
   --guioptions	= ,           --GUI: Which components and options are used
   --guitablabel	= ,           --GUI: custom label for a tab page

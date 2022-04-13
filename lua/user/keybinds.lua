@@ -14,6 +14,19 @@ function _G.EditConfigFile(file, subdir)
   vim.cmd(string.format("edit %s\\lua\\%s\\%s.lua", vim.fn.stdpath('config'), subdir, file))
 end
 
+-- if exists(':GuiFont')
+--    GuiFont! Cousine Nerd Font Mono:h12
+-- endif:
+
+function AdjustFontSize(amount)
+  _G.fontsize = _G.fontsize + amount
+  if (vim.fn.exists(':GuiFont') == 2) then
+    vim.cmd(string.format("execute 'GuiFont! CaskaydiaCove NF:h%s'",_G.fontsize))
+  else
+    vim.cmd[[echo 'Terminal AdjustFontSize() not implemented']]
+  end
+end
+
 local mappings = {
   b = {
     name = "buffer",
@@ -50,6 +63,11 @@ local mappings = {
   },
   u = {
     name = "ui",
+    f = {
+      name = "font",
+      ["+"] = {"<cmd>lua AdjustFontSize(1)<cr>",  "UI Font size +"},
+      ["-"] = {"<cmd>lua AdjustFontSize(-1)<cr>", "UI Font size -"},
+    },
     c = {
       name = "colorscheme",
       d = {":set background=dark<cr>",  "UI Colorscheme Dark"},
