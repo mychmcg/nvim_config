@@ -72,7 +72,7 @@ local options = {
   --gdefault	= ,             --the ":substitute" flag 'g' is default on
   --grepformat	= ,           --format of 'grepprg' output
   --grepprg	= ,               --program to use for ":grep"
-  gcr	= "n-v-c-sm:block,i-ci-ve:ver1,r-cr-o:hor20",             
+  gcr	= "n-v-c-sm:block,i-ci-ve:ver20,r-cr-o:hor20",             
                               --GUI: settings for cursor shape and blinking
   --guifont	= ,               --GUI: Name(s) of font(s) to be used
   --guifontwide	= ,           --list of font names for double-wide characters
