@@ -2,7 +2,11 @@
 
 local api = vim.api 
 
--- utils
+-- helpers
+
+-- toggles a flag based on modified state
+-- only meant to be called during a BufWritePre event
+-- used in conjunction with ModBufWritePost allows a function to be run only if the buffer was modified before writing
 function _G.SetModBufWritePre()
   if (vim.bo.modified) then
     vim.b.ModBufWritePre = 1
@@ -11,6 +15,9 @@ function _G.SetModBufWritePre()
   end
 end
 
+-- calls function argument if buffer was modified and then written 
+-- toggles off custom modified flag as the buffer is written now
+-- only works if SetModBufWritePre was called during the BufWritePre event
 function _G.ModBufWritePost(func)
   if (vim.b.ModBufWritePre > 0) then
     func()
