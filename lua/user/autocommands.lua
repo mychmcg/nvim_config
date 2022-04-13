@@ -26,7 +26,7 @@ function _G.ModBufWritePost(func)
 end
 
 -- This only works for $MYVIMRC (expands to 'init.lua')
-local configpattern = string.format("$MYVIMRC,%s*.lua",vim.fn.stdpath('config'))
+local configpattern = string.format("$MYVIMRC,%s*.lua",_G.configpath)
 -- This works for all lua files 
 -- local configpattern = "*.lua"
 
@@ -39,7 +39,7 @@ local autocmds = {
   };
   reload_nvim_config = {
     -- Autocommands that reloads config if it is changed
-    { "BufWritePre", configpattern, "lua SetModBufWritePre()" };
+    { "BufWritePre",  configpattern, "lua SetModBufWritePre()" };
     { "BufWritePost", configpattern, "lua ModBufWritePost(function() require('user.utils').reload_config() end)" };
   };
 }

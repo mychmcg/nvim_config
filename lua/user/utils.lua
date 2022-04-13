@@ -3,27 +3,24 @@ local M = {}
 
 -- Allows config to be reloaded without restarting nvim 
 function M.reload_config()
-  local count = 0
   for name,_ in pairs(package.loaded) do
     -- Which-Key needs to be unloaded separately for 
     -- whichkey to update(and work at all)
     if name:match('^which.*$') then
       package.loaded[name] = nil
-      count = count + 1
     end
 
     -- Unload/uncache all user files
     if name:match('^user') then
       package.loaded[name] = nil
     end
-    -- Which-Key needs to be unloaded separately for 
-    -- whichkey to update(and work at all)
-    --if name:match('^which') then
-    --  package.loaded[name] = nil
-    --end
   end
   
+  -- Save fontsize
+  local fs = _G.fontsize
   dofile(vim.env.MYVIMRC)
+  -- Restore fontsize
+  _G.fontsize = fs
   vim.cmd[[set background=light]]
 end
 
