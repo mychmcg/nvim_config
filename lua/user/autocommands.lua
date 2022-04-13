@@ -1,5 +1,5 @@
 -- Autocommands for various events
-
+--
 local api = vim.api 
 
 -- helpers
@@ -25,6 +25,11 @@ function _G.ModBufWritePost(func)
   end
 end
 
+-- This only works for $MYVIMRC (expands to 'init.lua')
+local configpattern = string.format("$MYVIMRC,%s*.lua",vim.fn.stdpath('config'))
+-- This works for all lua files 
+-- local configpattern = "*.lua"
+
 -- Autocommands
 local autocmds = {
   packer_user_config = {
@@ -34,8 +39,8 @@ local autocmds = {
   };
   reload_nvim_config = {
     -- Autocommands that reloads config if it is changed
-    { "BufWritePre", "$MYVIMRC,$HOME/.config/nvim/lua/user/*.lua", "lua SetModBufWritePre()" };
-    { "BufWritePost", "$MYVIMRC,$HOME/.config/nvim/lua/user/*.lua", "lua ModBufWritePost(function() require('user.utils').reload_config() end)" };
+    { "BufWritePre", configpattern, "lua SetModBufWritePre()" };
+    { "BufWritePost", configpattern, "lua ModBufWritePost(function() require('user.utils').reload_config() end)" };
   };
 }
 

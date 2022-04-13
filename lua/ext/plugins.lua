@@ -40,6 +40,11 @@ return packer.startup(function(use)
   use "lunarvim/colorschemes"
   use "rafamadriz/neon"
 
+  -- plenary is a dependency of which-key.reset(), 
+  -- which we use to reload our config in user.utils.reload_config()
+  --  
+  use "nvim-lua/plenary.nvim"
+
   use "folke/which-key.nvim" 
   use "akinsho/toggleterm.nvim"
 

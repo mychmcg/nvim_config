@@ -8,3 +8,5 @@ require "user.toggleterm"
 
 -- commands that reload neovim config
 vim.cmd('command! ReloadConfig lua require("user.utils").reload_config()')
+vim.cmd('command! UnloadWhichkey lua require("user.utils").unload_whichkey()')
+

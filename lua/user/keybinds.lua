@@ -4,19 +4,20 @@ local bind = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent = true}
 
 -- Remap space as leader key
-bind("","<space>","<nop>",opts)
+-- bind("","<space>","<nop>",opts)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- funcs
 function _G.EditConfigFile(file, subdir)
   subdir = subdir or 'user'
-  vim.cmd(string.format("edit %s/lua/%s/%s.lua", vim.fn.stdpath('config'), subdir, file))
+  vim.cmd(string.format("edit %s\\lua\\%s\\%s.lua", vim.fn.stdpath('config'), subdir, file))
 end
 
-wk.register({
+local mappings = {
   b = {
     name = "buffer",
+    b = {":echo 'brit'<cr>", "Brit"},
     d = {":bd<cr>", "Buffer Delete"},
     n = {":bn<cr>", "Buffer Next"},
     p = {":bp<cr>", "Buffer Previous"},
@@ -39,6 +40,7 @@ wk.register({
       t = {"<cmd>lua EditConfigFile('toggleterm')<cr>",     "Edit Config Toggleterm"},
       u = {"<cmd>lua EditConfigFile('utils')<cr>",          "Edit Config Utils"},
     },
+    l = {"<cmd>lua vim.cmd(string.format('edit %s/nvim.log', vim.fn.stdpath('config')))<cr>",  "Edit startup Log"},
     n = {":edit ", "Edit New"},
   },
   n = {
@@ -72,5 +74,15 @@ wk.register({
     q = {":wq<cr>", "Write Quit"},
     w = {":w<cr>",  "Write"},
   },
-}, {prefix = "<leader>"})
+}
+
+-- lua vim.pretty_print(package.loaded["which-key.keys"].mappings.n.tree.root.children[" "].children)
+mappings.i = {
+    name = "inspect",
+    w = {"<cmd>lua vim.pretty_print(package.loaded['which-key.keys'].mappings.n.tree.root.children[' '].children)<cr>",  "Inspect Which-key"},
+}
+
+
+wk.register(mappings, {prefix = "<leader>"})
+
 
