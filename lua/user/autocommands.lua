@@ -25,22 +25,19 @@ function _G.ModBufWritePost(func)
   end
 end
 
--- This only works for $MYVIMRC (expands to 'init.lua')
-local configpattern = string.format("$MYVIMRC,%s*.lua",_G.configpath)
--- This works for all lua files 
--- local configpattern = "*.lua"
-
 -- Autocommands
 local autocmds = {
   packer_user_config = {
     -- Autocommands that sync packer if plugins.lua is changed
     { "BufWritePre", "plugins.lua", "lua SetModBufWritePre()" };
-    { "BufWritePost", "plugins.lua", "lua ModBufWritePost(function() vim.api.nvim_command('source <afile> | PackerSync') end)" };
+    { "BufWritePost", "plugins.lua", 
+      "lua ModBufWritePost(function() vim.api.nvim_command('source <afile> | PackerSync') end)" };
   };
   reload_nvim_config = {
-    -- Autocommands that reloads config if it is changed
-    { "BufWritePre",  configpattern, "lua SetModBufWritePre()" };
-    { "BufWritePost", configpattern, "lua ModBufWritePost(function() require('user.utils').reload_config() end)" };
+    -- Autocommands that reloads config if any config files are changed
+    { "BufWritePre",  "$MYVIMRC,*/nvim/lua/*/*.lua", "lua SetModBufWritePre()" };
+    { "BufWritePost", "$MYVIMRC,*/nvim/lua/*/*.lua", 
+      "lua ModBufWritePost(function() require('user.utils').reload_config() end)" };
   };
 }
 

@@ -35,7 +35,6 @@ end
 local mappings = {
   b = {
     name = "buffer",
-    b = {":echo 'brit'<cr>", "Brit"},
     d = {":bd<cr>", "Buffer Delete"},
     n = {":bn<cr>", "Buffer Next"},
     p = {":bp<cr>", "Buffer Previous"},

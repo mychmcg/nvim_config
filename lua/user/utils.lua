@@ -21,7 +21,6 @@ function M.reload_config()
   dofile(vim.env.MYVIMRC)
   -- Restore fontsize
   _G.fontsize = fs
-  vim.cmd[[set background=light]]
 end
 
 function M.unload_whichkey()
