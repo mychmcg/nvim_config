@@ -23,15 +23,6 @@ function AdjustFontSize(amount)
   end
 end
 
-function AdjustFontSize(amount)
-  _G.fontsize = _G.fontsize + amount
-  if (vim.fn.exists(':GuiFont') == 2) then
-    vim.cmd(string.format("execute 'GuiFont! CaskaydiaCove NF:h%s'",_G.fontsize))
-  else
-    vim.cmd[[echo 'Terminal AdjustFontSize() not implemented']]
-  end
-end
-
 local mappings = {
   b = {
     name = "buffer",
