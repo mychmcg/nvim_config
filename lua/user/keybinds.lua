@@ -14,7 +14,7 @@ function _G.EditConfigFile(file, subdir)
   vim.cmd(string.format("edit %s/lua/%s/%s.lua", _G.configpath, subdir, file))
 end
 
-function AdjustFontSize(amount)
+function _G.AdjustFontSize(amount)
   _G.fontsize = _G.fontsize + amount
   if (vim.fn.exists(':GuiFont') == 2) then
     vim.cmd(string.format("execute 'GuiFont! CaskaydiaCove NF:h%s'",_G.fontsize))
@@ -23,13 +23,10 @@ function AdjustFontSize(amount)
   end
 end
 
-function AdjustFontSize(amount)
-  _G.fontsize = _G.fontsize + amount
-  if (vim.fn.exists(':GuiFont') == 2) then
-    vim.cmd(string.format("execute 'GuiFont! CaskaydiaCove NF:h%s'",_G.fontsize))
-  else
-    vim.cmd[[echo 'Terminal AdjustFontSize() not implemented']]
-  end
+function _G.MakeDirectory()
+  local cwd = string.format("%s/",vim.fn.getcwd())
+  local parent = vim.fn.input("Dirname: ", cwd, "dir")
+  vim.fn.mkdir(vim.fn.input("Dirname: ", parent, "dir"), 'p')
 end
 
 local mappings = {
@@ -59,6 +56,12 @@ local mappings = {
     },
     l = {"<cmd>lua vim.cmd(string.format('edit %s/nvim.log', vim.fn.stdpath('config')))<cr>",  "Edit startup Log"},
     n = {":edit ", "Edit New"},
+  },
+  m = {
+    name = "make",
+    -- TODO add popup window/prompt for names of new dirs/files
+    -- add windows support
+    d = {"<cmd>lua _G.MakeDirectory()<cr>", "Make Dir"},
   },
   n = {
     name = "navigate",
