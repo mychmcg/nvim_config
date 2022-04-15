@@ -23,10 +23,15 @@ function _G.AdjustFontSize(amount)
   end
 end
 
-function _G.MakeDirectory()
+function _G.MakeDirectoryFromUser()
   local cwd = string.format("%s/",vim.fn.getcwd())
-  local parent = vim.fn.input("Dirname: ", cwd, "dir")
-  vim.fn.mkdir(vim.fn.input("Dirname: ", parent, "dir"), 'p')
+  vim.fn.mkdir(vim.fn.input("Dirname: ", cwd, "dir"), 'p')
+end
+
+function _G.EditFileCwd()
+  local cwd = string.format("%s/",vim.fn.getcwd())
+  local fn = vim.fn.input("Filename: ", cwd, "dir")
+  vim.cmd(string.format(":e %s", fn))
 end
 
 local mappings = {
@@ -54,14 +59,15 @@ local mappings = {
       t = {"<cmd>lua EditConfigFile('toggleterm')<cr>",     "Edit Config Toggleterm"},
       u = {"<cmd>lua EditConfigFile('utils')<cr>",          "Edit Config Utils"},
     },
+    -- TODO add popup window with list of files in cwd
+    f = {":edit <tab>", "Edit File in cwd"},
     l = {"<cmd>lua vim.cmd(string.format('edit %s/nvim.log', vim.fn.stdpath('config')))<cr>",  "Edit startup Log"},
-    n = {":edit ", "Edit New"},
+    n = {"<cmd>lua EditFileCwd()<cr>", "Edit New"},
   },
   m = {
     name = "make",
     -- TODO add popup window/prompt for names of new dirs/files
-    -- add windows support
-    d = {"<cmd>lua _G.MakeDirectory()<cr>", "Make Dir"},
+    d = {"<cmd>lua _G.MakeDirectoryFromUser()<cr>", "Make Dir"},
   },
   n = {
     name = "navigate",
