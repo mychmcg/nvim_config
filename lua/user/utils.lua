@@ -16,11 +16,13 @@ function M.reload_config()
     end
   end
   
-  -- Save fontsize
+  -- Save font & fontsize
   local fs = _G.fontsize
+  local font = vim.o.guifont
   dofile(vim.env.MYVIMRC)
-  -- Restore fontsize
+  -- Restore font & fontsize
   _G.fontsize = fs
+  vim.o.guifont = font
 end
 
 function M.unload_whichkey()
