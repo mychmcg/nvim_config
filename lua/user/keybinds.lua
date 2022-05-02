@@ -32,6 +32,11 @@ function _G.MakeDirectory()
   vim.fn.mkdir(vim.fn.input("Dirname: ", parent, "dir"), 'p')
 end
 
+function _G.EditFile()
+  local cwd = string.format("%s/",vim.fn.getcwd())
+  vim.cmd(string.format("edit %s",vim.fn.input("Edit file: ", cwd, "dir")))
+end
+
 local mappings = {
   b = {
     name = "buffer",
@@ -58,7 +63,7 @@ local mappings = {
       u = {"<cmd>lua EditConfigFile('utils')<cr>",          "Edit Config Utils"},
     },
     l = {"<cmd>lua vim.cmd(string.format('edit %s/nvim.log', vim.fn.stdpath('config')))<cr>",  "Edit startup Log"},
-    n = {":edit ", "Edit New"},
+    n = {"<cmd>lua EditFile()<cr>", "Edit New"},
   },
   m = {
     name = "make",
