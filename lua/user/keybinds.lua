@@ -60,12 +60,21 @@ function _G.AdjustFontSize(amount)
     vim.cmd(string.format("execute 'GuiFont! CaskaydiaCove NF:h%s'",_G.fontsize))
   else
     _G.UnimplementedFeatureMsg('AdjustFontSize in terminal')
+    -- all work in neovide
+    vim.o.guifont, _ = string.gsub(vim.o.guifont, ":h.*", string.format(":h%s", _G.fontsize))
+    -- vim.o.guifont = string.format("CaskaydiaCove NF:h%s",_G.fontsize)
+    -- vim.cmd(string.format('set guifont=CaskaydiaCove\\ NF:h%s',_G.fontsize))
   end
 end
 
 function _G.MakeDirectoryFromUser()
   local cwd = string.format("%s/",vim.fn.getcwd())
   vim.fn.mkdir(vim.fn.input("Dirname: ", cwd, "dir"), 'p')
+end
+
+function _G.EditFile()
+  local cwd = string.format("%s/",vim.fn.getcwd())
+  vim.cmd(string.format("edit %s",vim.fn.input("Edit file: ", cwd, "dir")))
 end
 
 local mappings = {
@@ -96,6 +105,7 @@ local mappings = {
     -- TODO add popup window with list of files in cwd
     f = {":edit <tab>", "Edit File in cwd"},
     l = {"<cmd>lua vim.cmd(string.format('edit %s/nvim.log', vim.fn.stdpath('config')))<cr>",  "Edit startup Log"},
+
     n = {"<cmd>lua EditFileCwd()<cr>", "Edit New"},
     t = {
       name = "todo",
@@ -106,11 +116,18 @@ local mappings = {
         n = {"<cmd>lua EditNewDailyNote()<cr>", "Edit Todo Daily New"},
       },
     },
+
+
+
   },
   m = {
     name = "make",
     -- TODO add popup window/prompt for names of new dirs/files
+
     d = {"<cmd>lua _G.MakeDirectoryFromUser()<cr>", "Make Dir"},
+
+
+
   },
   n = {
     name = "navigate",

@@ -1,7 +1,7 @@
 vim.cmd [[set iskeyword+=-]]
 
 -- User defined options
-_G.fontsize = 10
+_G.fontsize = 11
 _G.configpath = vim.fn.stdpath('config'):gsub("\\","/")
 _G.notespath = string.format('%s/notes',vim.fn.expand('$HOME'))
 
@@ -81,7 +81,8 @@ local options = {
   --grepprg	= ,               --program to use for ":grep"
   gcr	= "n-v-c-sm:block,i-ci-ve:ver20,r-cr-o:hor20",             
                               --GUI: settings for cursor shape and blinking
-  guifont	= "CaskaydiaCove NF",  --GUI: Name(s) of font(s) to be used
+  --GUI: Name(s) of font(s) to be used
+  guifont	= string.format("CaskaydiaCove NF:h%s",_G.fontsize),  
   --guifontwide	= ,           --list of font names for double-wide characters
   --guioptions	= ,           --GUI: Which components and options are used
   --guitablabel	= ,           --GUI: custom label for a tab page
