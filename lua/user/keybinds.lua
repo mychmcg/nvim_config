@@ -9,9 +9,49 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- funcs
+function _G.UnimplementedFeatureMsg(msg)
+  vim.cmd(string.format("echo '%s is an unimplemented feature.", msg))
+end
+
+function _G.EditFile(file)
+  vim.cmd(string.format("edit %s", file))
+end
+
 function _G.EditConfigFile(file, subdir)
+  -- subdir is an optional arg, defaults to user dir
   subdir = subdir or 'user'
-  vim.cmd(string.format("edit %s/lua/%s/%s.lua", _G.configpath, subdir, file))
+  local fn = string.format("%s/lua/%s/%s.lua", _G.configpath, subdir, file)
+  EditFile(fn)
+end
+
+function _G.EditFileCwd()
+  local cwd = string.format("%s/",vim.fn.getcwd())
+  local fn = vim.fn.input("Filename: ", cwd, "dir")
+  EditFile(fn)
+end
+
+function _G.EditNote(file, subdir)
+  subdir = subdir or ''
+  if (subdir~='') then
+    subdir = string.format('%s/',subdir)
+  end
+  local parent = string.format('%s/%s', _G.notespath, subdir)
+  local path = string.format('%s%s.norg', parent, file)
+  vim.fn.mkdir(parent, 'p')
+  vim.cmd(string.format('cd %s', parent))
+  EditFile(path)
+end
+
+function _G.EditNewDailyNote()
+  local parent = string.format('todo/daily/%s', home, os.date('%Y/%m'))
+  local fn = os.date('%a_%m_%d_%Y.norg')
+  local path = string.format('%s/%s', parent, fn)
+  
+  vim.fn.mkdir(parent, 'p')
+  vim.cmd(string.format('cd %s', parent))
+  EditFile(path)
+  vim.cmd[[Neorg inject-metadata]]
+  vim.api.nvim_buf_set_lines(0, -1, -1, false, {"Hello World"})
 end
 
 function _G.AdjustFontSize(amount)
@@ -19,19 +59,13 @@ function _G.AdjustFontSize(amount)
   if (vim.fn.exists(':GuiFont') == 2) then
     vim.cmd(string.format("execute 'GuiFont! CaskaydiaCove NF:h%s'",_G.fontsize))
   else
-    vim.cmd[[echo 'Terminal AdjustFontSize() not implemented']]
+    _G.UnimplementedFeatureMsg('AdjustFontSize in terminal')
   end
 end
 
 function _G.MakeDirectoryFromUser()
   local cwd = string.format("%s/",vim.fn.getcwd())
   vim.fn.mkdir(vim.fn.input("Dirname: ", cwd, "dir"), 'p')
-end
-
-function _G.EditFileCwd()
-  local cwd = string.format("%s/",vim.fn.getcwd())
-  local fn = vim.fn.input("Filename: ", cwd, "dir")
-  vim.cmd(string.format(":e %s", fn))
 end
 
 local mappings = {
@@ -63,6 +97,15 @@ local mappings = {
     f = {":edit <tab>", "Edit File in cwd"},
     l = {"<cmd>lua vim.cmd(string.format('edit %s/nvim.log', vim.fn.stdpath('config')))<cr>",  "Edit startup Log"},
     n = {"<cmd>lua EditFileCwd()<cr>", "Edit New"},
+    t = {
+      name = "todo",
+      i = {"<cmd>lua EditNote('todo/index')<cr>", "Edit Todo Index"},
+      d = {
+        name = "daily",
+        p = {":echo 'Edit Previous Daily not implemented'<cr>", "Edit Todo Daily Previous"},
+        n = {"<cmd>lua EditNewDailyNote()<cr>", "Edit Todo Daily New"},
+      },
+    },
   },
   m = {
     name = "make",
@@ -73,6 +116,7 @@ local mappings = {
     name = "navigate",
     c = {"<cmd>lua vim.cmd(string.format('cd %s', vim.fn.stdpath('config')))<cr>",  "Navigate to Config"},
     d = {"<cmd>cd ~/dev<cr>",  "Navigate to Dev"},
+    n = {"<cmd>cd ~/notes<cr>",  "Navigate to Notes"},
   },
   u = {
     name = "ui",
