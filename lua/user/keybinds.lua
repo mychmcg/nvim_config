@@ -10,7 +10,7 @@ vim.g.maplocalleader = ' '
 
 -- funcs
 function _G.UnimplementedFeatureMsg(msg)
-  vim.cmd(string.format("echo '%s is an unimplemented feature.", msg))
+  vim.cmd(string.format("echo '%s is an unimplemented feature.'", msg))
 end
 
 function _G.EditFile(file)
