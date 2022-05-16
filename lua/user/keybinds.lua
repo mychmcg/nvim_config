@@ -72,11 +72,6 @@ function _G.MakeDirectoryFromUser()
   vim.fn.mkdir(vim.fn.input("Dirname: ", cwd, "dir"), 'p')
 end
 
-function _G.EditFile()
-  local cwd = string.format("%s/",vim.fn.getcwd())
-  vim.cmd(string.format("edit %s",vim.fn.input("Edit file: ", cwd, "dir")))
-end
-
 local mappings = {
   b = {
     name = "buffer",
