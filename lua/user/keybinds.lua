@@ -59,7 +59,7 @@ function _G.AdjustFontSize(amount)
   if (vim.fn.exists(':GuiFont') == 2) then
     vim.cmd(string.format("execute 'GuiFont! CaskaydiaCove NF:h%s'",_G.fontsize))
   else
-    _G.UnimplementedFeatureMsg('AdjustFontSize in terminal')
+    -- _G.UnimplementedFeatureMsg('AdjustFontSize in terminal')
     -- all work in neovide
     vim.o.guifont, _ = string.gsub(vim.o.guifont, ":h.*", string.format(":h%s", _G.fontsize))
     -- vim.o.guifont = string.format("CaskaydiaCove NF:h%s",_G.fontsize)

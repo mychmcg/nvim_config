@@ -1,7 +1,7 @@
 vim.cmd [[set iskeyword+=-]]
 
 -- User defined options
-_G.fontsize = 11
+_G.fontsize = 7
 _G.configpath = vim.fn.stdpath('config'):gsub("\\","/")
 _G.notespath = string.format('%s/notes',vim.fn.expand('$HOME'))
 
